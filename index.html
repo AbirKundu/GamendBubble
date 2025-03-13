@@ -20,8 +20,8 @@
     height: 100vh;
     top: 0;
     left: 0;
-    pointer-events: none; /* Prevents the game container from blocking input */
-}
+    z-index: -1; /* Moves the game container behind other elements */
+        }
 
 .heart {
     position: absolute;
