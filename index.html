@@ -24,10 +24,15 @@
         }
         .heart {
             position: absolute;
-            font-size: 30px;
+            font-size: 50px; /* Increased base size */
             cursor: pointer;
+            -webkit-user-select: none;
             user-select: none;
             opacity: 1;
+            padding: 15px; /* Increases clickable area */
+            display: flex;
+            align-items: center;
+            justify-content: center;
             animation: floatUp linear 4s forwards;
         }
         .btn {
@@ -48,12 +53,12 @@
             transform: scale(1.1);
         }
         .score {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             color: #ff1493;
         }
         .message {
-            font-size: 28px;
+            font-size: 30px;
             color: #ff1493;
             font-weight: bold;
             display: none;
@@ -88,12 +93,16 @@
             heart.innerHTML = "❤️";
             heart.classList.add("heart");
 
-            let startX = Math.random() * (window.innerWidth - 40);
+            let startX = Math.random() * (window.innerWidth - 60);
             heart.style.left = startX + "px";
-            heart.style.top = window.innerHeight - 50 + "px"; 
+            heart.style.top = window.innerHeight - 70 + "px"; 
 
-            let randomSize = 20 + Math.random() * 30; 
+            let randomSize = 40 + Math.random() * 40; /* Bigger heart size */
             heart.style.fontSize = randomSize + "px";
+
+            // Make the area around the heart more clickable
+            heart.style.width = (randomSize + 20) + "px";
+            heart.style.height = (randomSize + 20) + "px";
 
             heart.onclick = function() {
                 score++;
@@ -119,11 +128,10 @@
         function startGame() {
             if (gameRunning) return;
 
-            // Reset score and message
             score = 0;
             scoreDisplay.textContent = score;
             message.style.display = "none";
-            gameContainer.innerHTML = ""; // Clear previous hearts
+            gameContainer.innerHTML = ""; 
             gameRunning = true;
             startButton.style.display = "none";
 
