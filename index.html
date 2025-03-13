@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click the Hearts 💖</title>
+    <style>
+        body {
+            background-color: #ffe6f2;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        h1 {
+            color: #ff4081;
+        }
+        .game-container {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+        }
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            cursor: pointer;
+            user-select: none;
+            opacity: 1;
+            animation: floatUp linear 4s forwards;
+        }
+        .btn {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 15px;
+            margin-top: 20px;
+            transition: 0.3s;
+            position: relative;
+            z-index: 10;
+        }
+        .btn:hover {
+            background-color: #d81b60;
+            transform: scale(1.1);
+        }
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff1493;
+        }
+        .message {
+            font-size: 28px;
+            color: #ff1493;
+            font-weight: bold;
+            display: none;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>💕 Click the Hearts 💕</h1>
+    <p class="score">Score: <span id="score">0</span></p>
+    <div class="game-container" id="gameContainer"></div>
+    <button class="btn" id="startButton">Start Game 🎮</button>
+    <p class="message" id="message"></p>
+
+    <script>
+        let score = 0;
+        let gameRunning = false;
+        let heartInterval;
+        const gameContainer = document.getElementById("gameContainer");
+        const scoreDisplay = document.getElementById("score");
+        const message = document.getElementById("message");
+        const startButton = document.getElementById("startButton");
+
+        function createHeart() {
+            if (!gameRunning) return;
+
+            let heart = document.createElement("div");
+            heart.innerHTML = "❤️";
+            heart.classList.add("heart");
+
+            let startX = Math.random() * (window.innerWidth - 40);
+            heart.style.left = startX + "px";
+            heart.style.top = window.innerHeight - 50 + "px"; 
+
+            let randomSize = 20 + Math.random() * 30; 
+            heart.style.fontSize = randomSize + "px";
+
+            heart.onclick = function() {
+                score++;
+                scoreDisplay.textContent = score;
+                heart.remove();
+            };
+
+            gameContainer.appendChild(heart);
+
+            let animationDuration = 3 + Math.random() * 2; 
+            heart.style.transition = `transform ${animationDuration}s linear, opacity ${animationDuration}s`;
+
+            setTimeout(() => {
+                heart.style.transform = `translateY(-${window.innerHeight}px)`;
+                heart.style.opacity = "0";
+            }, 100);
+
+            setTimeout(() => {
+                if (heart) heart.remove();
+            }, animationDuration * 1000);
+        }
+
+        function startGame() {
+            if (gameRunning) return;
+
+            // Reset score and message
+            score = 0;
+            scoreDisplay.textContent = score;
+            message.style.display = "none";
+            gameContainer.innerHTML = ""; // Clear previous hearts
+            gameRunning = true;
+            startButton.style.display = "none";
+
+            heartInterval = setInterval(createHeart, 500);
+
+            setTimeout(() => {
+                clearInterval(heartInterval);
+                gameRunning = false;
+                message.innerHTML = `💖 Time's up! You scored <b>${score}</b> points! <br> You are the cutest! 😘`;
+                message.style.display = "block";
+                startButton.style.display = "inline-block";
+            }, 15000);
+        }
+
+        startButton.addEventListener("click", startGame);
+    </script>
+
+</body>
+</html>
