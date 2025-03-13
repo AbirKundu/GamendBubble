@@ -24,16 +24,20 @@
         }
         .heart {
             position: absolute;
-            font-size: 50px; /* Increased base size */
+            font-size: 50px; /* Increased size */
             cursor: pointer;
             -webkit-user-select: none;
             user-select: none;
             opacity: 1;
-            padding: 15px; /* Increases clickable area */
-            display: flex;
-            align-items: center;
-            justify-content: center;
             animation: floatUp linear 4s forwards;
+        }
+        .heart::before {
+            content: "❤️";
+            display: block;
+            width: 80px; /* Increased clickable area */
+            height: 80px;
+            text-align: center;
+            line-height: 80px;
         }
         .btn {
             background-color: #ff4081;
@@ -53,15 +57,25 @@
             transform: scale(1.1);
         }
         .score {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             color: #ff1493;
         }
         .message {
-            font-size: 30px;
+            font-size: 28px;
             color: #ff1493;
             font-weight: bold;
             display: none;
+        }
+        .input-container {
+            margin-bottom: 10px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            font-size: 18px;
+            color: #ff1493;
         }
         @keyframes floatUp {
             0% { transform: translateY(0); opacity: 1; }
@@ -72,6 +86,10 @@
 <body>
 
     <h1>💕 Click the Hearts 💕</h1>
+    <div class="input-container">
+        <label for="playerName">Enter Your Name: </label>
+        <input type="text" id="playerName" placeholder="Your Name">
+    </div>
     <p class="score">Score: <span id="score">0</span></p>
     <div class="game-container" id="gameContainer"></div>
     <button class="btn" id="startButton">Start Game 🎮</button>
@@ -85,24 +103,17 @@
         const scoreDisplay = document.getElementById("score");
         const message = document.getElementById("message");
         const startButton = document.getElementById("startButton");
+        const playerNameInput = document.getElementById("playerName");
 
         function createHeart() {
             if (!gameRunning) return;
 
             let heart = document.createElement("div");
-            heart.innerHTML = "❤️";
             heart.classList.add("heart");
 
-            let startX = Math.random() * (window.innerWidth - 60);
+            let startX = Math.random() * (window.innerWidth - 80);
             heart.style.left = startX + "px";
-            heart.style.top = window.innerHeight - 70 + "px"; 
-
-            let randomSize = 40 + Math.random() * 40; /* Bigger heart size */
-            heart.style.fontSize = randomSize + "px";
-
-            // Make the area around the heart more clickable
-            heart.style.width = (randomSize + 20) + "px";
-            heart.style.height = (randomSize + 20) + "px";
+            heart.style.top = window.innerHeight - 50 + "px"; 
 
             heart.onclick = function() {
                 score++;
@@ -128,10 +139,17 @@
         function startGame() {
             if (gameRunning) return;
 
+            let playerName = playerNameInput.value.trim();
+            if (playerName === "") {
+                alert("Please enter your name before starting the game!");
+                return;
+            }
+
+            // Reset score and message
             score = 0;
             scoreDisplay.textContent = score;
             message.style.display = "none";
-            gameContainer.innerHTML = ""; 
+            gameContainer.innerHTML = "";
             gameRunning = true;
             startButton.style.display = "none";
 
@@ -140,7 +158,7 @@
             setTimeout(() => {
                 clearInterval(heartInterval);
                 gameRunning = false;
-                message.innerHTML = `💖 Time's up! You scored <b>${score}</b> points! <br> You are the cutest! 😘`;
+                message.innerHTML = `💖 Time's up, <b>${playerName}</b>! You scored <b>${score}</b> points! <br> You are the cutest! 😘`;
                 message.style.display = "block";
                 startButton.style.display = "inline-block";
             }, 15000);
@@ -148,6 +166,10 @@
 
         startButton.addEventListener("click", startGame);
     </script>
+
+    <div class="footer">
+        Game by ❤️ Abir Kundu
+    </div>
 
 </body>
 </html>
