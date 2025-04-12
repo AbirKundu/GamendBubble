@@ -3,7 +3,7 @@
 GameBubbble is a fun and interactive number-based bubble pop game developed using HTML, CSS, and JavaScript. It’s designed to test your reflexes and mental speed in a playful way.
 
 🎮 **Live Demo**:  
-👉 [https://abirkundu.github.io/GameBubbble](https://abirkundu.github.io/GameBubbble)
+👉 [https://abirkundu.github.io/GameBubbble](https://abirkundu.github.io/GamendBubble/)
 
 ## 🚀 Features
 
